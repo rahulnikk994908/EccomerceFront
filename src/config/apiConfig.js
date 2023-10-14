@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const API_BASE_URL ="https://eccomercebackend-production.up.railway.app"
+export const API_BASE_URL ="http://eccomercebackend-production.up.railway.app"
 //export const API_BASE_URL ="http://localhost:5455"
 
 
