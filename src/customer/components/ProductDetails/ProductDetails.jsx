@@ -96,23 +96,23 @@ function classNames(...classes) {
 export default function ProdcutDetails() {
     const [selectedSize, setSelectedSize] = useState("")
     const navigate = useNavigate();
-    const params=useParams()
+    const params = useParams()
     const dispatch = useDispatch()
-    const {products} = useSelector(store => store);
-    console.log("Image url",products.product?.imageUrl)
+    const { products } = useSelector(store => store);
+    console.log("Image url", products.product?.imageUrl)
 
-    const handleAddToCart =() =>{
-        const data ={productId:params.productId,size:selectedSize.name}
-        console.log("Add Data to Cart",data)
+    const handleAddToCart = () => {
+        const data = { productId: params.productId, size: selectedSize.name }
+        console.log("Add Data to Cart", data)
         dispatch(addItemToCart(data))
         navigate("/cart")
     }
 
-    useEffect(()=>{
-        const data={productId:params.productId}
-        console.log("****************",data)
+    useEffect(() => {
+        const data = { productId: params.productId }
+        console.log("****************", data)
         dispatch(findProductsById(data))
-    },[params.productId])
+    }, [params.productId])
     return (
         <div className="bg-white ml-10">
             <div className="pt-6">
@@ -261,10 +261,14 @@ export default function ProdcutDetails() {
                                     </RadioGroup>
                                 </div>
 
-                                <Button
-                                    onClick={handleAddToCart}
-                                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                    Add to Card
+
+                                <Button onClick={handleAddToCart}
+                                    className='flex w-full items-center justify-center rounded-md border'
+                                    variant="contained"
+                                    type="submit"
+                                    sx={{ padding: ".8rem 2rem", marginTop: "2rem" }}
+                                >
+                                    Add To Cart
                                 </Button>
                             </form>
                         </div>

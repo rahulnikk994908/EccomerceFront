@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUser, login } from "../../../src/State/Auth/Action";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginForm({  }) {
   const navigate = useNavigate();
@@ -17,6 +19,9 @@ export default function LoginForm({  }) {
   useEffect(()=>{
     if(jwt){
       dispatch(getUser(jwt))
+      toast.success( `Hi you are logged in successfully !`, {
+        position: toast.POSITION.TOP_RIGHT
+    });
     }
   
   },[jwt])
@@ -37,6 +42,9 @@ export default function LoginForm({  }) {
     console.log("login user",userData);
   
     dispatch(login(userData));
+
+   
+
 
   };
   console.log("new user" , user)
@@ -90,7 +98,7 @@ export default function LoginForm({  }) {
       </div>
       <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleCloseSnakbar}>
         <Alert onClose={handleCloseSnakbar} severity="success" sx={{ width: '100%' }}>
-          {auth.error?auth.error:auth.user?"Register Success":""}
+          {auth.error?auth.error:auth.user?<ToastContainer />:''}
         </Alert>
       </Snackbar>
     </div>

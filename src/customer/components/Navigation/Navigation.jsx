@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deepPurple } from "@mui/material/colors";
 import { getUser, logout } from "../../../State/Auth/Action";
 import { navigation } from "../../../config/navigationMenu";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -76,6 +78,12 @@ export default function Navigation() {
   const handleLogout = () => {
     handleCloseUserMenu();
     dispatch(logout());
+    toast.success('Logout Successfully !', {
+      position: toast.POSITION.BOTTOM_RIGHT
+  });
+   navigate("/");
+
+
   };
   const handleMyOrderClick=()=>{
     handleCloseUserMenu()
@@ -235,12 +243,63 @@ export default function Navigation() {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <a
-                      href="/"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Sign in
-                    </a>
+                  {console.log("checking user is present..",auth.user)}
+
+{auth.user? (
+  <div>
+    <Avatar
+      className="text-white"
+      onClick={handleUserClick}
+      aria-controls={open ? "basic-menu" : undefined}
+      aria-haspopup="true"
+      aria-expanded={open ? "true" : undefined}
+      // onClick={handleUserClick}
+      sx={{
+        bgcolor: deepPurple[500],
+        color: "white",
+        cursor: "pointer",
+      }}
+    >
+      {auth.user?.firstName[0].toUpperCase()}
+    </Avatar>
+    {/* <Button
+      id="basic-button"
+      aria-controls={open ? "basic-menu" : undefined}
+      aria-haspopup="true"
+      aria-expanded={open ? "true" : undefined}
+      onClick={handleUserClick}
+    >
+      Dashboard
+    </Button> */}
+    <Menu
+      id="basic-menu"
+      anchorEl={anchorEl}
+      open={openUserMenu}
+      onClose={handleCloseUserMenu}
+      MenuListProps={{
+        "aria-labelledby": "basic-button",
+      }}
+    >
+      <MenuItem onClick={handleCloseUserMenu}>
+        Profile
+      </MenuItem>
+      
+      <MenuItem onClick={handleMyOrderClick}>
+        My Orders
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+    </Menu>
+  </div>
+) : (
+  <Button
+    onClick={handleOpen}
+    className="text-sm font-medium text-gray-700 hover:text-gray-800"
+  >
+    Signin
+  </Button>
+
+)}
+<ToastContainer />
                   </div>
                 </div>
 
@@ -480,7 +539,10 @@ export default function Navigation() {
                     >
                       Signin
                     </Button>
+
                   )}
+                  <ToastContainer />
+
                 </div>
 
                 {/* Search */}

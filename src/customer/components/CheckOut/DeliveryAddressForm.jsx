@@ -2,13 +2,17 @@ import * as React from "react";
 import { Grid, TextField, Button, Box } from "@mui/material";
 import AddressCard from '../AddressCard/AddressCard.jsx'
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createOrder } from "../../../State/Order/Action.js";
+
 
 export default function DeliveryAddressForm({ handleNext }) {
   const dispatch =useDispatch()
   const navigate = useNavigate()
+  const {order} = useSelector(store => store)
+
+  
 
   // console.log("auth", auth);
 
@@ -29,8 +33,26 @@ export default function DeliveryAddressForm({ handleNext }) {
 
     const orderData ={address,navigate}
     dispatch(createOrder(orderData))
+    navigate('/checkout?step=2')
+
+
     console.log("Address........",address)
+
   };
+  const sideAdress =()=>{
+    const address = {
+      firstName: order.order?.shippingAddress.firstName,
+      lastName: order.order?.shippingAddress.lastName,
+      streetAddress: order.order?.shippingAddress.address,
+      city: order.order?.shippingAddress.city,
+      state: order.order?.shippingAddress.state,
+      zipCode: order.order?.shippingAddress.zip,
+      mobile: order.order?.shippingAddress.phoneNumber
+    };
+    const orderData ={address,navigate}
+    dispatch(createOrder(orderData))
+
+  }
 
  
 
@@ -42,9 +64,9 @@ export default function DeliveryAddressForm({ handleNext }) {
               className="p-5 py-7 border-b cursor-pointer"
             >
               {" "}
-              <AddressCard  />
+              <AddressCard address={order.order?.shippingAddress}/>
              
-                <Button
+                <Button onClick={sideAdress}
                   sx={{ mt: 2 }}
                   size="large"
                   variant="contained"

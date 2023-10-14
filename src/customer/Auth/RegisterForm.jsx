@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, register } from "../../State/Auth/Action";
 import { Fragment, useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegisterForm({ handleNext }) {
   const navigate = useNavigate();
@@ -39,6 +41,10 @@ useEffect(()=>{
     }
     console.log("user data",userData);
     dispatch(register(userData))
+
+    toast.success('Congratulations ! You have Successfully Registered.', {
+      position: toast.POSITION.BOTTOM_RIGHT
+  });
   
   };
 
@@ -113,7 +119,7 @@ useEffect(()=>{
 
 <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          {auth.error?auth.error:auth.user?"Register Success":""}
+          {auth.error?auth.error:auth.user? <ToastContainer />:""}
         </Alert>
       </Snackbar>
      
